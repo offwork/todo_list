@@ -11,7 +11,7 @@ defmodule TodoList.Application do
     children = [
       # Starts a worker by calling: TodoList.Worker.start_link(arg)
       # {TodoList.Worker, arg},
-      { Plug.Cowboy, scheme: :http, plug: TodoList.Router, options: [port: 8080] }
+      { Plug.Cowboy, scheme: :http, plug: TodoList.Router, options: [port: cowboy_port()] }
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -20,4 +20,6 @@ defmodule TodoList.Application do
     Logger.info("Starting application...")
     Supervisor.start_link(children, opts)
   end
+
+  defp cowboy_port, do: Application.get_env(:todo_list, :cowboy_port, 8080)
 end
